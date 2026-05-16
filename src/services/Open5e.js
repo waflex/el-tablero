@@ -1,5 +1,5 @@
 const BASE_URL = 'https://api.open5e.com/v2'
-
+//dejarlo en minus
 // v2 uses /creatures/ endpoint and keys like "srd_yeti"
 export async function fetchMonsterBySlug(slug) {
   // Slugs to try in order
