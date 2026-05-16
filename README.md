@@ -1,4 +1,4 @@
-# ⚔️ Forge of Battles
+# ⚔️ El Tablero
 
 Generador de encuentros D&D 5e con temáticas, condiciones ambientales y monstruos generados por IA (OpenRouter - openrouter.ai).
 
