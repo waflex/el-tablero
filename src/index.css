@@ -1,0 +1,549 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-cinzel: "Cinzel", serif;
+  --font-family-crimson: "Crimson Pro", Georgia, serif;
+
+  --color-cream-50: #fdfaf4;
+  --color-cream-100: #f5edd8;
+  --color-cream-200: #e8d5a3;
+
+  --color-crimson-500: #9b1b1b;
+  --color-crimson-600: #7a1212;
+  --color-crimson-700: #5c0d0d;
+
+  --color-gold-300: #f0c040;
+  --color-gold-400: #c9a227;
+  --color-gold-500: #8b6914;
+  --color-gold-600: #5a430c;
+
+  --color-stone-50: #f9f6f0;
+  --color-stone-100: #ede8df;
+  --color-stone-200: #d6ccbc;
+  --color-stone-300: #b5a898;
+  --color-stone-400: #8c7d6a;
+  --color-stone-500: #5e5144;
+  --color-stone-600: #3d3328;
+  --color-stone-700: #251e16;
+  --color-stone-800: #150f09;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--color-stone-50);
+    color: var(--color-stone-700);
+    font-family: var(--font-family-crimson);
+    font-size: 1rem;
+    font-weight: 400;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-family-cinzel);
+  }
+
+  /* Scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #9b1b1b #f5edd8;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: #f5edd8;
+    border-radius: 20px;
+  }
+  *::-webkit-scrollbar-track:hover {
+    background: #e8d5a3;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: #9b1b1b;
+    border-radius: 20px;
+    min-height: 30px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: #7a1212;
+  }
+  *::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* Stat block divider — red line like official D&D */
+  .stat-divider {
+    border: none;
+    border-top: 1px solid var(--color-crimson-600);
+    margin: 0.5rem 0;
+    opacity: 0.5;
+  }
+
+  .dnd-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.75rem 0;
+    color: var(--color-gold-500);
+    font-size: 0.75rem;
+  }
+  .dnd-divider::before,
+  .dnd-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-crimson-600),
+      transparent
+    );
+  }
+}
+
+@layer components {
+  .section-label {
+    font-family: var(--font-family-cinzel);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-stone-400);
+    margin-bottom: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--color-stone-200);
+    border-radius: 9999px;
+    font-family: var(--font-family-crimson);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: white;
+    color: var(--color-stone-600);
+    user-select: none;
+  }
+  .chip:hover {
+    border-color: var(--color-gold-400);
+    color: var(--color-stone-700);
+  }
+  .chip.active {
+    background-color: var(--color-crimson-500);
+    border-color: var(--color-crimson-600);
+    color: white;
+  }
+  .chip.active i {
+    color: var(--color-gold-300);
+  }
+
+  .btn-generate {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-family-cinzel);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background-color: var(--color-crimson-500);
+    color: var(--color-gold-300);
+    border: 1px solid var(--color-gold-500);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .btn-generate:hover {
+    background-color: var(--color-crimson-600);
+  }
+  .btn-generate:active {
+    transform: scale(0.98);
+  }
+  .btn-generate:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .slider-track {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+  }
+  .slider-track label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-stone-600);
+    width: 80px;
+    flex-shrink: 0;
+  }
+  .slider-track input[type="range"] {
+    flex: 1;
+    accent-color: var(--color-crimson-500);
+  }
+  .slider-track .val {
+    font-family: var(--font-family-cinzel);
+    font-size: 0.75rem;
+    color: var(--color-crimson-600);
+    min-width: 44px;
+    text-align: right;
+  }
+
+  /* Monster card */
+  .monster-card {
+    background: white;
+    border: 1px solid var(--color-cream-200);
+    border-radius: 8px;
+    overflow: hidden;
+    transition:
+      box-shadow 0.15s,
+      transform 0.15s;
+    display: flex;
+    flex-direction: column;
+  }
+  .monster-card:hover {
+    box-shadow: 0 4px 16px rgba(155, 27, 27, 0.12);
+    transform: translateY(-2px);
+  }
+
+  .monster-card-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    background-color: var(--color-cream-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-stone-300);
+  }
+
+  .monster-card-body {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .monster-card-name {
+    font-family: var(--font-family-cinzel);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-crimson-600);
+    line-height: 1.2;
+  }
+
+  .monster-card-meta {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--color-stone-400);
+  }
+
+  .stat-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--color-cream-50);
+    border: 1px solid var(--color-cream-200);
+    border-radius: 6px;
+    padding: 0.35rem 0.5rem;
+    min-width: 52px;
+  }
+  .stat-pill-label {
+    font-family: var(--font-family-cinzel);
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    color: var(--color-stone-400);
+    text-transform: uppercase;
+  }
+  .stat-pill-val {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-stone-700);
+    line-height: 1.2;
+  }
+
+  .badge-cr {
+    font-family: var(--font-family-cinzel);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background-color: var(--color-crimson-500);
+    color: var(--color-gold-300);
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+  }
+
+  .btn-details {
+    width: 100%;
+    margin-top: auto;
+    padding: 0.55rem;
+    font-family: var(--font-family-cinzel);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--color-gold-500);
+    border-radius: 4px;
+    background: white;
+    color: var(--color-crimson-600);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+  .btn-details:hover {
+    background-color: var(--color-crimson-500);
+    color: var(--color-gold-300);
+  }
+
+  /* =====================
+     STAT BLOCK MODAL
+     Inspired by official D&D 5e layout
+  ===================== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(21, 15, 9, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 1rem;
+  }
+
+  .stat-block {
+    background: #fdf1dc;
+    border: 1px solid #c9a227;
+    border-radius: 4px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow:
+      0 8px 32px rgba(21, 15, 9, 0.4),
+      inset 0 0 60px rgba(155, 27, 27, 0.04);
+    position: relative;
+  }
+
+  /* Red top/bottom border like official stat blocks */
+  .stat-block::before,
+  .stat-block::after {
+    content: "";
+    display: block;
+    height: 6px;
+    background: var(--color-crimson-600);
+  }
+
+  .stat-block-inner {
+    padding: 1rem 1.25rem;
+  }
+
+  /* Monster name — large, crimson, Cinzel */
+  .sb-name {
+    font-family: var(--font-family-cinzel);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-crimson-600);
+    line-height: 1.1;
+    margin-bottom: 0.1rem;
+  }
+
+  /* Subtitle: size · type · alignment */
+  .sb-subtitle {
+    font-family: var(--font-family-crimson);
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--color-stone-600);
+    margin-bottom: 0.5rem;
+  }
+
+  /* Tapered red divider */
+  .sb-divider {
+    border: none;
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      var(--color-crimson-600),
+      var(--color-crimson-500),
+      transparent
+    );
+    margin: 0.5rem 0;
+  }
+
+  /* Vitals row: AC, HP, Speed */
+  .sb-vitals {
+    margin: 0.5rem 0;
+    line-height: 1.7;
+    font-size: 0.9rem;
+    color: var(--color-stone-700);
+  }
+  .sb-vitals strong {
+    font-family: var(--font-family-cinzel);
+    font-size: 0.78rem;
+    color: var(--color-stone-800);
+    font-weight: 700;
+  }
+
+  /* Ability score table */
+  .sb-abilities {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    text-align: center;
+    background: rgba(155, 27, 27, 0.04);
+    border-radius: 4px;
+    padding: 0.5rem 0.25rem;
+    margin: 0.5rem 0;
+    gap: 0.25rem;
+  }
+  .sb-ability-label {
+    font-family: var(--font-family-cinzel);
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--color-crimson-600);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.2rem;
+  }
+  .sb-ability-val {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-stone-800);
+  }
+  .sb-ability-mod {
+    font-size: 0.75rem;
+    color: var(--color-stone-500);
+  }
+
+  /* Section heading: ACTIONS, TRAITS, etc */
+  .sb-section-heading {
+    font-family: var(--font-family-cinzel);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-crimson-600);
+    letter-spacing: 0.04em;
+    margin: 0.75rem 0 0.25rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--color-crimson-500);
+  }
+
+  /* Action entry */
+  .sb-action {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    margin-bottom: 0.35rem;
+    color: var(--color-stone-700);
+  }
+  .sb-action-name {
+    font-family: var(--font-family-cinzel);
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--color-stone-800);
+  }
+
+  /* CR badge in stat block */
+  .sb-cr {
+    display: inline-block;
+    font-family: var(--font-family-cinzel);
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: var(--color-crimson-600);
+    color: var(--color-gold-300);
+    padding: 0.15rem 0.6rem;
+    border-radius: 9999px;
+    letter-spacing: 0.06em;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* Tip box */
+  .sb-tip {
+    background: #fffbeb;
+    border-left: 3px solid var(--color-gold-400);
+    padding: 0.6rem 0.85rem;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--color-stone-600);
+    margin-top: 0.75rem;
+  }
+  .sb-tip strong {
+    font-family: var(--font-family-cinzel);
+    font-size: 0.65rem;
+    font-style: normal;
+    color: var(--color-gold-600);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  /* Close button */
+  .sb-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-stone-400);
+    font-size: 1rem;
+    line-height: 1;
+    z-index: 2;
+  }
+  .sb-close:hover {
+    color: var(--color-crimson-500);
+  }
+
+  /* Error box */
+  .error-box {
+    background: #fff5f5;
+    border: 1px solid var(--color-crimson-500);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: var(--color-crimson-600);
+    margin-top: 0.75rem;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-crimson-500);
+  display: inline-block;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
